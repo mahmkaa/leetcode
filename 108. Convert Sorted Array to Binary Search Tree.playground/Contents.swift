@@ -11,35 +11,18 @@ public class TreeNode {
     }
 }
 
-func insert(_ root: TreeNode?, _ value: Int) -> TreeNode? {
-    guard let root = root else {
-        return TreeNode(value)
+func sortedArrayToBST(_ nums: [Int]) -> TreeNode? {
+    if nums.isEmpty {
+        return nil
     }
     
-    if value < root.val {
-        root.left = insert(root.left, value)
-    } else {
-        root.right = insert(root.right, value)
-    }
+    let mid = (nums.count) / 2
+    let root = TreeNode(nums[mid])
+    root.left = sortedArrayToBST(Array(nums[..<mid]))
+    root.right = sortedArrayToBST(Array(nums[(mid + 1)...]))
     
     return root
 }
 
-func arrayToBST(_ nums: [Int]) -> TreeNode? {
-    func sortedArrayToBSTHelper(_ nums: [Int], _ start: Int, _ end: Int) -> TreeNode? {
-            if start > end {
-                return nil
-            }
-            
-            let mid = (start + end) / 2
-            let root = TreeNode(nums[mid])
-            root.left = sortedArrayToBSTHelper(nums, start, mid - 1)
-            root.right = sortedArrayToBSTHelper(nums, mid + 1, end)
-            return root
-        }
-        
-        return sortedArrayToBSTHelper(nums, 0, nums.count - 1)
-}
-
 var nums = [-10,-3,0,5,9]
-arrayToBST(nums)
+sortedArrayToBST(nums)
